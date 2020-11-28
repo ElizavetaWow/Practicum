@@ -36,6 +36,7 @@ class Tetris:
     # начало игры
     def start(self):
         self.score = 0
+        self.speed = 300
         self.status = True
         self.pause = False
         self.board.clear()
@@ -85,6 +86,7 @@ class Tetris:
         completed_line = self.board.completed_lines()
         if completed_line >= 1:
             self.score += completed_line * 100
+            self.speed = self.speed - (self.score // 500) * 10
 
     # конец игры и выбор дальнейших действий
     def __over(self):
@@ -159,11 +161,11 @@ class Tetris:
     # управление игрой
     def controls(self, key):
         if self.status:
-            if key.keycode == 37:
+            if key.keysym == "Left":
                 self.piece.move((-1, 0))
-            elif key.keycode == 39:
+            elif key.keysym == "Right":
                 self.piece.move((1, 0))
-            elif key.keycode == 40:
+            elif key.keysym == "Down":
                 self.hard_drop()
-            elif key.keycode == 38:
+            elif key.keysym == "Up":
                 self.piece.rotate()
